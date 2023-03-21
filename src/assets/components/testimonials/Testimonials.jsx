@@ -1,8 +1,8 @@
 import React from "react";
 import "./testimonials.css";
-import AVTR1 from "../../../assets/avatar1.jpg";
-import AVTR2 from "../../../assets/avatar2.jpg";
-import AVTR3 from "../../../assets/avatar3.jpg";
+import AVTR1 from "../../../assets/cert1schoters.jpg";
+import AVTR2 from "../../../assets/cert2dibimbing.jpg";
+import AVTR3 from "../../../assets/cert3evermos.jpg";
 // import AVTR4 from "../../../assets/avatar4.jpg";
 
 // import Swiper core and required modules
@@ -17,29 +17,28 @@ import "swiper/css/pagination";
 const data = [
   {
     avatar: AVTR1,
-    name: "Tina Snow",
+    name: "Shoters - Business English Program",
     review:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo odit deserunt molestiae, qui consectetur nobis praesentium",
+      "For completing Bussiness English Program that held by Schoters on the September - October 2022 and has proved to be competent in English languange at the level B1 - Intermediate",
   },
   {
     avatar: AVTR2,
-    name: "Shatta Male",
-    review:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo odit deserunt molestiae, qui consectetur nobis praesentium",
+    name: "Dibimbing.id - Back-End Web Development ",
+    review: "For successfully completing Back-End Web Development Bootcamp",
   },
   {
     avatar: AVTR3,
-    name: "Kwame Despite",
+    name: "Evermos | Rakamin - Project Based Intern: BackEnd Developer Virtual Internship",
     review:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo odit deserunt molestiae, qui consectetur nobis praesentium",
+      "For successfully completing back end developer Virtual Internship Program from Evermos",
   },
 ];
 
 const Testimonials = () => {
   return (
     <section id="testimonials">
-      <h5>Review from Clients</h5>
-      <h2>Testimonials</h2>
+      <h5>My Achievements</h5>
+      <h2>Certificate</h2>
 
       <Swiper
         className="container testimonials__container"
