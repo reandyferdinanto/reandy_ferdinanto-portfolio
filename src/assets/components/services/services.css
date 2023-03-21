@@ -31,6 +31,17 @@
   text-align: center;
 }
 
+.service__head h4 {
+  color: var(--color-bg);
+  font-size: 0.9rem;
+  text-align: center;
+}
+.service__head h5 {
+  color: var(--color-white);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
 .service__list {
   padding: 2rem;
 }
@@ -41,9 +52,14 @@
   margin-bottom: 0.8rem;
 }
 
+.service__list h4 {
+  color: cadetblue;
+}
+
 .service__list-icon {
   color: var(--color-primary);
-  margin-top: 2px;
+  margin-top: 1px;
+  font-size: medium;
 }
 
 .service__list p {
