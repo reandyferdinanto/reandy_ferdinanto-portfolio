@@ -12,7 +12,7 @@ const data = [
     image: IMG1,
     title: "Virtual ATM transaction with CLI (NodeJS)",
     github: "https://github.com/reandyferdinanto/ATM-simulation.git",
-    demo: "https://github.com",
+    demo: "#contact",
     credit: "starline on Freepik",
     credit_url:
       "https://www.freepik.com/free-vector/credit-card-going-inside-mobile-digital-transaction-concept_22535508.htm#query=atm%20code%20dark&position=1&from_view=search&track=ais",
@@ -21,8 +21,8 @@ const data = [
     id: 2,
     image: IMG2,
     title: "Recipe Sharing API (BackEnd - ExpressJS MySQL)",
-    github: "https://github.com",
-    demo: "https://github.com",
+    github: "https://github.com/reandyferdinanto/recipeSharing.git",
+    demo: "https://documenter.getpostman.com/view/23401470/2s8Z6yXCpr",
     credit: "Freepik",
     credit_url:
       "https://www.freepik.com/free-psd/brunch-restaurant-design-landing-page_7247926.htm#query=recipe%20web%20dark%20code%20only&position=7&from_view=search&track=ais",
@@ -31,8 +31,8 @@ const data = [
     id: 3,
     image: IMG3,
     title: "Suggestion for Users to Get Nearest Restaurant",
-    github: "https://github.com",
-    demo: "https://github.com",
+    github: "https://github.com/reandyferdinanto/foodBankProject.git",
+    demo: "https://documenter.getpostman.com/view/23401470/2s93JtPiMd",
     credit: "WangXiNa on Freepik",
     credit_url:
       "https://www.freepik.com/free-vector/map-point-abstract-3d-polygonal-wireframe-airplane-blue-night-sky-with-dots-stars-illustration-background_24126470.htm#query=gps%20navigation%20dark&position=8&from_view=search&track=ais",
