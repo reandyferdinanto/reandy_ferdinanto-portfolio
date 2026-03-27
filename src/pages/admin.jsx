@@ -92,7 +92,7 @@ function LoginForm({ onLogin }) {
 
 /* ========== HEADER SETTINGS ========== */
 function HeaderSettings({ settings, onChange, onSave }) {
-  const h = settings || { greeting: '', name: '', role: '' };
+  const h = settings || { greeting: '', name: '', role: '', tagline: '', image_url: '' };
   return (
     <div className="admin__section">
       <div className="admin__section-header">
@@ -112,6 +112,15 @@ function HeaderSettings({ settings, onChange, onSave }) {
           <label>Role / Title</label>
           <input value={h.role || ''} onChange={e => onChange('header', { ...h, role: e.target.value })} placeholder="BackEnd Developer" />
         </div>
+      </div>
+      <div className="admin__input-group">
+        <label>Tagline</label>
+        <textarea
+          rows="3"
+          value={h.tagline || ''}
+          onChange={e => onChange('header', { ...h, tagline: e.target.value })}
+          placeholder="Building scalable backend systems & crafting modern web experiences"
+        />
       </div>
       <div className="admin__input-group" style={{ marginTop: '1rem' }}>
         <label>Profile Image</label>

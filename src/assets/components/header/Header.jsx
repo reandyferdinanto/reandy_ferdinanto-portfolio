@@ -4,6 +4,9 @@ import ME from "../../../assets/me_R.png";
 import HeaderSocials from "./HeaderSocials";
 
 const Header = ({ data = {} }) => {
+  const tagline =
+    data.tagline || "Building scalable backend systems & crafting modern web experiences";
+
   return (
     <header style={{ position: 'relative' }}>
       <div className="header__ornament header__ornament--1"></div>
@@ -23,7 +26,7 @@ const Header = ({ data = {} }) => {
               {data.role || 'Fullstack Web Developer'}
             </h2>
             <p className="header__tagline">
-              Building scalable backend systems & crafting modern web experiences
+              {tagline}
             </p>
             <CTA />
             <HeaderSocials />
