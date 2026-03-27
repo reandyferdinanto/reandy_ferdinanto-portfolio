@@ -14,8 +14,8 @@
   --color-primary: #31344b;
   --color-primary-variant: #44476A;
   --color-white: #31344b;
-  --color-light: #525480;
-  --color-accent: #2D4CC8;
+  --color-light: #6A6D88;
+  --color-accent: #93B5E1; /* Pastel Blue */
   --shadow-soft: 6px 6px 12px #cccccc, -6px -6px 12px #ffffff;
   --shadow-inset: inset 2px 2px 5px #cccccc, inset -3px -3px 7px #ffffff;
   --shadow-light: 3px 3px 6px #cccccc, -3px -3px 6px #ffffff;
@@ -134,14 +134,15 @@ a:hover {
 
 .neu-btn-accent {
   background: var(--color-accent);
-  color: #fff;
+  color: var(--color-primary);
   border: none;
-  box-shadow: 4px 4px 10px rgba(45, 76, 200, 0.3), -2px -2px 6px rgba(255, 255, 255, 0.4);
+  font-weight: 700;
+  box-shadow: 4px 4px 10px rgba(147, 181, 225, 0.6), -2px -2px 6px rgba(255, 255, 255, 0.8);
 }
 
 .neu-btn-accent:hover {
-  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.15), inset -3px -3px 7px rgba(255, 255, 255, 0.2);
-  color: #fff;
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1), inset -3px -3px 7px rgba(255, 255, 255, 0.6);
+  color: var(--color-primary);
   transform: translateY(-2px);
 }
 

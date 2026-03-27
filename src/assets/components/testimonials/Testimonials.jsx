@@ -31,7 +31,7 @@ const Testimonials = ({ certificates = [] }) => {
   const items = certificates.length > 0 ? certificates : defaultData;
 
   return (
-    <section id="testimonials">
+    <section id="certificates">
       <h5>My Achievements</h5>
       <h2>Certificates</h2>
 

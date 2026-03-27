@@ -5,7 +5,11 @@ import HeaderSocials from "./HeaderSocials";
 
 const Header = ({ data = {} }) => {
   return (
-    <header>
+    <header style={{ position: 'relative' }}>
+      <div className="header__ornament header__ornament--1"></div>
+      <div className="header__ornament header__ornament--2"></div>
+      <div className="header__ornament header__ornament--3"></div>
+      <div className="header__ornament header__ornament--4"></div>
       <div className="container header__container">
         <div className="header__content">
           <div className="header__text">

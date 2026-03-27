@@ -8,6 +8,62 @@ header {
 .header__container {
   max-width: 1100px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ========== HEAD ORNAMENTS ========== */
+.header__ornament {
+  position: absolute;
+  background: var(--color-bg);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  z-index: 0;
+  animation: float 6s ease-in-out infinite;
+}
+
+.header__ornament--1 {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  top: 15%;
+  left: 8%;
+  animation-delay: 0s;
+}
+
+.header__ornament--2 {
+  width: 90px;
+  height: 90px;
+  border-radius: 1.5rem;
+  top: 65%;
+  left: 18%;
+  animation-delay: 1.5s;
+  transform: rotate(15deg);
+}
+
+.header__ornament--3 {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  top: -10%;
+  right: -5%;
+  box-shadow: var(--shadow-inset);
+  animation-delay: 3s;
+}
+
+.header__ornament--4 {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  bottom: 10%;
+  right: 25%;
+  animation-delay: 4.5s;
+}
+
+@keyframes float {
+  0% { margin-top: 0px; }
+  50% { margin-top: -25px; }
+  100% { margin-top: 0px; }
 }
 
 /* ========== 2-COL LAYOUT ========== */

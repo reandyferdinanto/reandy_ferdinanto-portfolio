@@ -1,131 +1,66 @@
 import React from "react";
+import { BiBriefcase, BiBook } from "react-icons/bi";
 
-import { BiCheck } from "react-icons/bi";
+const timelineData = [
+  {
+    id: 1,
+    type: "career",
+    title: "Project-based Intern: Backend Developer Virtual Internship",
+    date: "February - March 2023",
+    location: "Evermos & Rakamin",
+    desc: "Developed inventory API using Golang and Fiber. Gained experience in managing and securing APIs and worked with MySQL.",
+  },
+  {
+    id: 2,
+    type: "career",
+    title: "Switch Career Program - Backend Developer Bootcamp",
+    date: "June - December 2022",
+    location: "Dibimbing.id",
+    desc: "Developed web platform back ends using NodeJS. Built APIs and data clients. Tested and documented with POSTMAN.",
+  },
+  {
+    id: 3,
+    type: "career",
+    title: "Warehouse Supervisor & IT Support",
+    date: "2018 - 2022",
+    location: "PT. Expertest Kaliper Nusantara",
+    desc: "Supervised daily warehouse operations. Maintained hardware & software. Assisted IT Supervisor with server remote troubleshooting.",
+  },
+  {
+    id: 4,
+    type: "education",
+    title: "Bachelor of Information Systems",
+    date: "2012 - 2017",
+    location: "STMIK Dharma Putra",
+    desc: "Studied Information Systems with a strong focus on Software Engineering, Database Administration, and Business Logic.",
+  }
+];
 
 const Services = () => {
   return (
     <section id="services">
-      <h5>Experience</h5>
-      <h2>My Career</h2>
+      <h5>My Journey</h5>
+      <h2>Career & Education</h2>
 
       <div className="container service__container">
-        <article className="services">
-          <div className="service__head">
-            <h3>Project-based Intern: Backend Developer Vitual Internship</h3>
-            <h5>February - March 2023</h5>
-            <h4>Evermos - Rakamin </h4>
-          </div>
-
-          <ul className="service__list">
-            <li>
-              <BiCheck className="service__list-icon" />
-              <p>Developed inventory API using Golang and Fiber</p>
-            </li>
-            <li>
-              <BiCheck className="service__list-icon" />
-              <p>Gained experience in managing and securing APIs</p>
-            </li>
-            <li>
-              <BiCheck className="service__list-icon" />
-              <p>Worked with MySQL and SQL queries to manage inventory data</p>
-            </li>
-            <li>
-              <BiCheck className="service__list-icon" />
-              <p>Learned software development best practices from mentor</p>
-            </li>
-            <li>
-              <BiCheck className="service__list-icon" />
-              <p>Added inventory API to portfolio to showcase skills</p>
-            </li>
-          </ul>
-        </article>
-
-        {/* END OF EVERMOS */}
-
-        <article className="services">
-          <div className="service__head">
-            <h3>Switch Career Program - Backend Developer Bootcamp </h3>
-            <h5>Juni - December 2022</h5>
-            <h4>Dibimbing.id</h4>
-          </div>
-
-          <ul className="service__list">
-            <li>
-              <BiCheck className="service__list-icon" />
-              <p>Developed web platform back ends using node.JS</p>
-            </li>
-            <li>
-              <BiCheck className="service__list-icon" />
-              <p>Developed server-side logic in JavaScript</p>
-            </li>
-            <li>
-              <BiCheck className="service__list-icon" />
-              <p>Built APIs and data clients to consume APIs</p>
-            </li>
-            <li>
-              <BiCheck className="service__list-icon" />
-              <p>Tested and documented with POSTMAN application</p>
-            </li>
-          </ul>
-        </article>
-
-        {/* END OF DIBIMBING */}
-
-        <article className="services">
-          <div className="service__head">
-            <h3>Warehouse Supervisor & IT Support</h3>
-            <h5>2018 - 2022 </h5>
-            <h4>PT. Expertest Kaliper Nusantara</h4>
-          </div>
-
-          <ul className="service__list">
-            <h4>Warehouse Supervisor</h4>
-            <li>
-              <BiCheck className="service__list-icon" />
-              <p>
-                Plan, organized, supervised, and participated in daily warehouse
-                operation
-              </p>
-            </li>
-            <li>
-              <BiCheck className="service__list-icon" />
-              <p>
-                Supported production workers in meeting goals without
-                compromising safety and compliance
-              </p>
-            </li>
-            <h4>IT Support</h4>
-            <li>
-              <BiCheck className="service__list-icon" />
-              <p>
-                Installing, configuring, and maintaining hardware & software
-              </p>
-            </li>
-            <li>
-              <BiCheck className="service__list-icon" />
-              <p>
-                Assisting IT Supervisor with any troubleshooting on the server
-                remotely
-              </p>
-            </li>
-            <li>
-              <BiCheck className="service__list-icon" />
-              <p>
-                Evaluate current hardware and software needs and identify
-                opportunities for improvement
-              </p>
-            </li>
-            <li>
-              <BiCheck className="service__list-icon" />
-              <p>
-                Recommend and purchase new hardware and software solutions that
-                meet the company's needs and budget
-              </p>
-            </li>
-          </ul>
-        </article>
-
-        {/* END OF EKN */}
+        <div className="timeline">
+          {timelineData.map((item, index) => {
+            const isLeft = index % 2 === 0;
+            return (
+              <div key={item.id} className={`timeline__item ${isLeft ? 'left' : 'right'}`}>
+                <div className="timeline__icon">
+                  {item.type === 'career' ? <BiBriefcase /> : <BiBook />}
+                </div>
+                <div className="timeline__content">
+                  <h3>{item.title}</h3>
+                  <h4>{item.location}</h4>
+                  <div className="timeline__date">{item.date}</div>
+                  <p>{item.desc}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
