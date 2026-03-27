@@ -414,14 +414,16 @@ export default function OrderPage() {
                       <div className="pricing__icon">
                         <Icon />
                       </div>
-                      <span className="pricing__badge">{pkg.badge}</span>
+                      <div className="pricing__badge-stack">
+                        <span className="pricing__badge">{pkg.badge}</span>
+                        {pkg.recommended && selectedPackageId !== pkg.id && (
+                          <div className="pricing__recommended-badge">Recommended</div>
+                        )}
+                      </div>
                     </div>
                     <div className="pricing__card-body">
                       {selectedPackageId === pkg.id && (
                         <div className="pricing__selected-indicator">Terpilih di simulasi</div>
-                      )}
-                      {pkg.recommended && (
-                        <div className="pricing__recommended-badge">Recommended</div>
                       )}
                       <h3>{pkg.name}</h3>
                       <div className="pricing__price">{pkg.price}</div>
