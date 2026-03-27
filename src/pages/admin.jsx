@@ -274,7 +274,7 @@ function SkillsManager({ skills, setSkills, toast }) {
 /* ========== PROJECTS ========== */
 function ProjectsManager({ projects, setProjects, toast }) {
   const addProject = () => {
-    setProjects([...projects, { id: 'new-' + Date.now(), title: '', github_url: '', demo_url: '', image_credit: '', image_credit_url: '', sort_order: projects.length, _new: true }]);
+    setProjects([...projects, { id: 'new-' + Date.now(), title: '', category: 'other', technologies: '', demo_url: '', image_credit: '', image_credit_url: '', sort_order: projects.length, _new: true }]);
   };
 
   const updateProject = (id, field, val) => {
@@ -293,7 +293,7 @@ function ProjectsManager({ projects, setProjects, toast }) {
 
   const saveAll = async () => {
     for (const p of projects) {
-      const data = { title: p.title, github_url: p.github_url, demo_url: p.demo_url, image_url: p.image_url, image_credit: p.image_credit, image_credit_url: p.image_credit_url, sort_order: p.sort_order };
+      const data = { title: p.title, category: p.category, technologies: p.technologies, demo_url: p.demo_url, image_url: p.image_url, image_credit: p.image_credit, image_credit_url: p.image_credit_url, sort_order: p.sort_order };
       if (p._new) {
         const { data: inserted } = await supabase.from('projects').insert(data).select().single();
         if (inserted) p.id = inserted.id;
@@ -317,9 +317,20 @@ function ProjectsManager({ projects, setProjects, toast }) {
       </div>
       {projects.sort((a, b) => a.sort_order - b.sort_order).map(p => (
         <div key={p.id} className="admin__item">
-          <div className="admin__input-group">
-            <label>Project Title</label>
-            <input value={p.title || ''} onChange={e => updateProject(p.id, 'title', e.target.value)} />
+          <div className="admin__input-row">
+            <div className="admin__input-group" style={{ flex: 2 }}>
+              <label>Project Title</label>
+              <input value={p.title || ''} onChange={e => updateProject(p.id, 'title', e.target.value)} />
+            </div>
+            <div className="admin__input-group" style={{ flex: 1 }}>
+              <label>Category</label>
+              <select value={p.category || 'other'} onChange={e => updateProject(p.id, 'category', e.target.value)}>
+                <option value="portfolio">Portfolio Profile</option>
+                <option value="saas">SaaS / Platform</option>
+                <option value="appscript">AppScript / Apps</option>
+                <option value="other">Other Apps</option>
+              </select>
+            </div>
           </div>
           <div className="admin__input-group">
             <label>Project Image</label>
@@ -327,8 +338,8 @@ function ProjectsManager({ projects, setProjects, toast }) {
           </div>
           <div className="admin__input-row">
             <div className="admin__input-group">
-              <label>GitHub URL</label>
-              <input value={p.github_url || ''} onChange={e => updateProject(p.id, 'github_url', e.target.value)} />
+              <label>Technologies Used</label>
+              <input value={p.technologies || ''} onChange={e => updateProject(p.id, 'technologies', e.target.value)} placeholder="Next.js, Supabase, Tailwind" />
             </div>
             <div className="admin__input-group">
               <label>Demo URL</label>

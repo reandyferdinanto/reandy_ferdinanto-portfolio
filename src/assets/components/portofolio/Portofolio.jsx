@@ -1,6 +1,5 @@
 import React from "react";
-import { BsGithub } from "react-icons/bs";
-import { FiExternalLink } from "react-icons/fi";
+import { FiExternalLink, FiMonitor, FiCloud, FiCode, FiSmartphone } from "react-icons/fi";
 import IMG1 from "../../../assets/portfolio1_r.jpg";
 import IMG2 from "../../../assets/portfolio2_r.jpg";
 import IMG3 from "../../../assets/portfolio3_r.jpg";
@@ -10,7 +9,7 @@ const defaultData = [
     id: 1,
     image: IMG1.src,
     title: "Virtual ATM transaction with CLI (NodeJS)",
-    github_url: "https://github.com/reandyferdinanto/ATM-simulation.git",
+    technologies: "NodeJS, JavaScript, CLI",
     demo_url: "#contact",
     image_credit: "starline on Freepik",
     image_credit_url: "https://www.freepik.com/free-vector/credit-card-going-inside-mobile-digital-transaction-concept_22535508.htm",
@@ -19,7 +18,7 @@ const defaultData = [
     id: 2,
     image: IMG2.src,
     title: "Recipe Sharing API (BackEnd - ExpressJS MySQL)",
-    github_url: "https://github.com/reandyferdinanto/recipeSharing.git",
+    technologies: "ExpressJS, MySQL, Postman",
     demo_url: "https://documenter.getpostman.com/view/23401470/2s8Z6yXCpr",
     image_credit: "Freepik",
     image_credit_url: "https://www.freepik.com/free-psd/brunch-restaurant-design-landing-page_7247926.htm",
@@ -28,12 +27,35 @@ const defaultData = [
     id: 3,
     image: IMG3.src,
     title: "Suggestion for Users to Get Nearest Restaurant",
-    github_url: "https://github.com/reandyferdinanto/foodBankProject.git",
+    technologies: "Dijkstra Algorithm, Maps API",
     demo_url: "https://documenter.getpostman.com/view/23401470/2s93JtPiMd",
     image_credit: "WangXiNa on Freepik",
     image_credit_url: "https://www.freepik.com/free-vector/map-point-abstract-3d-polygonal-wireframe-airplane-blue-night-sky-with-dots-stars-illustration-background_24126470.htm",
   },
 ];
+
+const CategoryPlaceholder = ({ category }) => {
+  let Icon = FiMonitor;
+  let label = "Portfolio Project";
+
+  if (category === 'saas') {
+    Icon = FiCloud;
+    label = "SaaS / Platform";
+  } else if (category === 'appscript') {
+    Icon = FiCode;
+    label = "AppScript / Code";
+  } else if (category === 'other') {
+    Icon = FiSmartphone;
+    label = "Application";
+  }
+
+  return (
+    <div className="portfolio__category-placeholder">
+      <div className="portfolio__category-icon"><Icon /></div>
+      <span>{label}</span>
+    </div>
+  );
+};
 
 const localImages = [IMG1.src, IMG2.src, IMG3.src];
 
@@ -48,32 +70,45 @@ const Portofolio = ({ projects = [] }) => {
         {items.map((item, index) => {
           const image = item.image || item.image_url || localImages[index] || localImages[0];
           const title = item.title;
-          const github = item.github_url || item.github;
+          const techString = item.technologies || item.tech || "";
+          const techList = techString ? techString.split(",").map(t => t.trim()).filter(Boolean) : [];
           const demo = item.demo_url || item.demo;
           const credit = item.image_credit || item.credit;
           const creditUrl = item.image_credit_url || item.credit_url;
 
+          const category = item.category || 'other';
+
           return (
             <article key={item.id || index} className="portfolio__item">
-              <div className="portfolio__item-image">
-                <img src={image} alt={title} />
-                <div className="portfolio__item-overlay">
-                  <a href={github} className="portfolio__overlay-btn" target="_blank" rel="noreferrer" title="View Code">
-                    <BsGithub />
-                  </a>
-                  <a href={demo} className="portfolio__overlay-btn" target="_blank" rel="noreferrer" title="Live Demo">
-                    <FiExternalLink />
-                  </a>
+              <div className="portfolio__item-image-container">
+                <div className="portfolio__item-image-flipper">
+                  <div className="portfolio__item-image-front">
+                    <CategoryPlaceholder category={category} />
+                  </div>
+                  <div className="portfolio__item-image-back">
+                    <img src={image} alt={title} />
+                    <div className="portfolio__item-overlay">
+                      <a href={demo} className="portfolio__overlay-btn" target="_blank" rel="noreferrer" title="Live Demo">
+                        <FiExternalLink />
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="portfolio__item-body">
                 <h3>{title}</h3>
+                
+                {techList.length > 0 && (
+                  <div className="portfolio__tags">
+                    {techList.map((tag, i) => (
+                      <span key={i} className="portfolio__tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+
                 <div className="portfolio__item-cta">
                   <a href={demo} className="portfolio__link" target="_blank" rel="noreferrer">
                     <FiExternalLink /> Live Demo
-                  </a>
-                  <a href={github} className="portfolio__link" target="_blank" rel="noreferrer">
-                    <BsGithub /> Github
                   </a>
                 </div>
                 {credit && (
