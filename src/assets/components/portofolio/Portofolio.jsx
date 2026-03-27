@@ -1,5 +1,4 @@
 import React from "react";
-import { SiPostman } from "react-icons/si";
 import { BsGithub } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
 import IMG1 from "../../../assets/portfolio1_r.jpg";
@@ -71,7 +70,7 @@ const Portofolio = ({ projects = [] }) => {
                 <h3>{title}</h3>
                 <div className="portfolio__item-cta">
                   <a href={demo} className="portfolio__link" target="_blank" rel="noreferrer">
-                    <SiPostman /> Postman
+                    <FiExternalLink /> Live Demo
                   </a>
                   <a href={github} className="portfolio__link" target="_blank" rel="noreferrer">
                     <BsGithub /> Github

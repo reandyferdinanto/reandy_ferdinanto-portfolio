@@ -8,6 +8,48 @@ function Toast({ message }) {
   return <div className="admin__toast">{message}</div>;
 }
 
+/* ========== IMAGE UPLOADER ========== */
+function ImageUpload({ url, onUpload, toast }) {
+  const [uploading, setUploading] = useState(false);
+
+  const handleFile = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploading(true);
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+
+    let { error: uploadError } = await supabase.storage
+      .from('portfolio-images')
+      .upload(fileName, file);
+
+    if (uploadError) {
+      toast("Upload failed: " + uploadError.message);
+      setUploading(false);
+      return;
+    }
+
+    const { data } = supabase.storage
+      .from('portfolio-images')
+      .getPublicUrl(fileName);
+
+    onUpload(data.publicUrl);
+    setUploading(false);
+    toast("Image successfully uploaded!");
+  };
+
+  return (
+    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginTop: '0.5rem', marginBottom: '1rem', background: 'var(--color-bg)', padding: '0.5rem', borderRadius: '1rem', boxShadow: 'var(--shadow-inset)' }}>
+      {url && <img src={url} alt="Preview" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '8px' }} />}
+      <div style={{ flex: 1 }}>
+        <input type="file" accept="image/*" onChange={handleFile} disabled={uploading} style={{ fontSize: '0.8rem', width: '100%' }} />
+        {uploading && <div style={{ fontSize: '0.75rem', color: 'var(--color-accent)', marginTop: '0.2rem' }}>Uploading...</div>}
+      </div>
+    </div>
+  );
+}
+
 /* ========== LOGIN ========== */
 function LoginForm({ onLogin }) {
   const [email, setEmail] = useState('');
@@ -71,6 +113,10 @@ function HeaderSettings({ settings, onChange, onSave }) {
           <input value={h.role || ''} onChange={e => onChange('header', { ...h, role: e.target.value })} placeholder="BackEnd Developer" />
         </div>
       </div>
+      <div className="admin__input-group" style={{ marginTop: '1rem' }}>
+        <label>Profile Image</label>
+        <ImageUpload url={h.image_url} onUpload={(url) => onChange('header', { ...h, image_url: url })} toast={(msg) => alert(msg)} />
+      </div>
     </div>
   );
 }
@@ -103,6 +149,10 @@ function AboutSettings({ settings, onChange, onSave }) {
       <div className="admin__input-group">
         <label>Section Title</label>
         <input value={a.title || ''} onChange={e => onChange('about', { ...a, title: e.target.value })} placeholder="Who am I?" />
+      </div>
+      <div className="admin__input-group">
+        <label>Profile Image (About Section)</label>
+        <ImageUpload url={a.image_url} onUpload={(url) => onChange('about', { ...a, image_url: url })} toast={(msg) => alert(msg)} />
       </div>
       <div className="admin__input-group">
         <label>Paragraph 1</label>
@@ -272,8 +322,8 @@ function ProjectsManager({ projects, setProjects, toast }) {
             <input value={p.title || ''} onChange={e => updateProject(p.id, 'title', e.target.value)} />
           </div>
           <div className="admin__input-group">
-            <label>Image URL</label>
-            <input value={p.image_url || ''} onChange={e => updateProject(p.id, 'image_url', e.target.value)} placeholder="https://drive.google.com/uc?export=view&id=..." />
+            <label>Project Image</label>
+            <ImageUpload url={p.image_url} onUpload={(url) => updateProject(p.id, 'image_url', url)} toast={toast} />
           </div>
           <div className="admin__input-row">
             <div className="admin__input-group">
@@ -351,6 +401,10 @@ function CertificatesManager({ certificates, setCertificates, toast }) {
           <div className="admin__input-group">
             <label>Certificate Name / Issuer</label>
             <input value={c.name || ''} onChange={e => updateCert(c.id, 'name', e.target.value)} />
+          </div>
+          <div className="admin__input-group">
+            <label>Certificate Image / Avatar</label>
+            <ImageUpload url={c.avatar_url} onUpload={(url) => updateCert(c.id, 'avatar_url', url)} toast={toast} />
           </div>
           <div className="admin__input-group">
             <label>Description</label>

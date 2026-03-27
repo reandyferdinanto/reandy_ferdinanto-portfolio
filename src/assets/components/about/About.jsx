@@ -42,7 +42,7 @@ const About = ({ data = {} }) => {
         {/* Left: Photo + Stats */}
         <div className="about__left">
           <div className="about__me-image">
-            <img src={ME.src} alt="About Me" />
+            <img src={data.image_url || ME.src} alt="About Me" />
           </div>
           <div className="about__stats">
             {stats.map((s, i) => {

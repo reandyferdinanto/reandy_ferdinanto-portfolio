@@ -28,7 +28,7 @@ const Header = ({ data = {} }) => {
           <div className="header__photo">
             <div className="header__photo-ring">
               <div className="header__photo-inner">
-                <img src={ME.src} alt={data.name || 'Reandy Ferdinanto'} />
+                <img src={data.image_url || ME.src} alt={data.name || 'Reandy Ferdinanto'} />
               </div>
             </div>
             <div className="header__photo-dot header__photo-dot--1"></div>
