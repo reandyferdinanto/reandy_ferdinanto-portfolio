@@ -1,67 +1,148 @@
+/* ========== SKILLS CONTAINER ========== */
 .experience__container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: 2.5rem;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.experience__container > div {
-  background: var(--color-bg-variant);
-  padding: 2.4rem 5rem;
-  border-radius: 2rem;
-  border: 1px solid transparent;
+/* ========== SKILL CARD ========== */
+.skill__card {
+  background: var(--color-bg);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 1.5rem;
+  padding: 2rem 2.5rem;
   transition: var(--transition);
 }
 
-.experience__container > div:hover {
-  background: transparent;
-  border-color: var(--color-primary-variant);
-  cursor: default;
+.skill__card:hover {
+  box-shadow: var(--shadow-light);
 }
 
-.experience__container > div h3 {
-  text-align: center;
-  margin-bottom: 2rem;
-  color: var(--color-primary);
-}
-
-.experience__content {
-  display: grid;
-  grid-template-columns: 1fr 1 fr;
-  row-gap: 2rem;
-}
-
-.experience__details {
+/* ========== CARD HEADER ========== */
+.skill__card-header {
   display: flex;
+  align-items: center;
   gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.experience__details-icon {
-  margin-top: 6px;
+.skill__card-badge {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.skill__card-badge--fe {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+
+.skill__card-badge--be {
+  background: linear-gradient(135deg, var(--color-accent), #3b82f6);
+}
+
+.skill__card-header h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
   color: var(--color-primary);
 }
 
-/* ======================= MEDIA QUERIES(MEDIUM DEVICES)==============*/
+/* ========== SKILL LIST ========== */
+.skill__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ========== SKILL ITEM ========== */
+.skill__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skill__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skill__name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.skill__pct {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+/* ========== PROGRESS BAR ========== */
+.skill__track {
+  width: 100%;
+  height: 10px;
+  border-radius: 10px;
+  background: var(--color-bg);
+  box-shadow: var(--shadow-inset);
+  overflow: hidden;
+  position: relative;
+}
+
+.skill__fill {
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--color-accent), #6366f1);
+  box-shadow: 0 2px 6px rgba(45, 76, 200, 0.3);
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.skill__fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+  border-radius: 10px;
+}
+
+/* ========== MEDIA QUERIES ========== */
 @media screen and (max-width: 1024px) {
   .experience__container {
     grid-template-columns: 1fr;
+    max-width: 500px;
   }
 }
-.experience__container > div {
-  width: 80%;
-  padding: 2rem;
-  margin: auto;
-}
 
-.experience__content {
-  padding: 1rem;
-}
-
-/* ======================= MEDIA QUERIES(MEDIUM DEVICES)==============*/
 @media screen and (max-width: 600px) {
-  .experience__container {
-    gap: 1rem;
+  .skill__card {
+    padding: 1.5rem;
   }
-  .experience__container > div {
-    width: 100%;
+
+  .skill__card-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
   }
 }
