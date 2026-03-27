@@ -36,7 +36,9 @@ const timelineData = [
   }
 ];
 
-const Services = () => {
+const Services = ({ timeline = [] }) => {
+  const data = timeline.length > 0 ? timeline : timelineData;
+
   return (
     <section id="services">
       <h5>My Journey</h5>
@@ -44,7 +46,7 @@ const Services = () => {
 
       <div className="container service__container">
         <div className="timeline">
-          {timelineData.map((item, index) => {
+          {data.map((item, index) => {
             const isLeft = index % 2 === 0;
             return (
               <div key={item.id} className={`timeline__item ${isLeft ? 'left' : 'right'}`}>

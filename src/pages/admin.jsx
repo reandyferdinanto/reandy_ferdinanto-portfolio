@@ -611,6 +611,94 @@ function CatalogsManager({ catalogs, setCatalogs, toast }) {
   );
 }
 
+/* ========== TIMELINE ========== */
+function TimelineManager({ timeline, setTimeline, toast }) {
+  const addItem = (type) => {
+    setTimeline([...timeline, { id: 'new-' + Date.now(), type, title: '', location: '', date: '', desc: '', sort_order: timeline.length, _new: true }]);
+  };
+
+  const updateItem = (id, field, val) => {
+    setTimeline(timeline.map(t => t.id === id ? { ...t, [field]: val, _dirty: true } : t));
+  };
+
+  const deleteItem = async (id) => {
+    if (id.toString().startsWith('new-')) {
+      setTimeline(timeline.filter(t => t.id !== id));
+      return;
+    }
+    await supabase.from('timeline').delete().eq('id', id);
+    setTimeline(timeline.filter(t => t.id !== id));
+    toast('Timeline item deleted');
+  };
+
+  const saveAll = async () => {
+    for (const t of timeline) {
+      const data = { type: t.type, title: t.title, location: t.location, date: t.date, desc: t.desc, sort_order: t.sort_order };
+      if (t._new) {
+        const { data: inserted } = await supabase.from('timeline').insert(data).select().single();
+        if (inserted) t.id = inserted.id;
+        t._new = false;
+      } else if (t._dirty) {
+        await supabase.from('timeline').update(data).eq('id', t.id);
+      }
+      t._dirty = false;
+    }
+    toast('Timeline saved!');
+  };
+
+  const renderSection = (type, sectionTitle) => {
+    const items = timeline.filter(t => t.type === type).sort((a, b) => a.sort_order - b.sort_order);
+    return (
+      <div style={{ marginBottom: '2rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <h3 style={{ fontSize: '1.2rem', color: 'var(--color-primary)' }}>{sectionTitle}</h3>
+          <button className="admin__btn admin__btn--add" onClick={() => addItem(type)}>+ Add {sectionTitle}</button>
+        </div>
+        {items.map((t) => (
+          <div key={t.id} className="admin__item">
+            <div className="admin__input-row">
+              <div className="admin__input-group" style={{ flex: 2 }}>
+                <label>Title / Position</label>
+                <input value={t.title || ''} onChange={e => updateItem(t.id, 'title', e.target.value)} placeholder="Backend Developer" />
+              </div>
+              <div className="admin__input-group" style={{ flex: 1 }}>
+                <label>Date / Duration</label>
+                <input value={t.date || ''} onChange={e => updateItem(t.id, 'date', e.target.value)} placeholder="2018 - 2022" />
+              </div>
+            </div>
+            <div className="admin__input-group">
+              <label>Location / Company / School</label>
+              <input value={t.location || ''} onChange={e => updateItem(t.id, 'location', e.target.value)} />
+            </div>
+            <div className="admin__input-group">
+              <label>Description</label>
+              <textarea rows="3" value={t.desc || ''} onChange={e => updateItem(t.id, 'desc', e.target.value)} />
+            </div>
+            <div className="admin__input-group">
+              <label>Sort Order</label>
+              <input type="number" value={t.sort_order || 0} onChange={e => updateItem(t.id, 'sort_order', parseInt(e.target.value))} style={{ width: '80px' }} />
+            </div>
+            <button className="admin__btn admin__btn--delete" onClick={() => deleteItem(t.id)}>Delete</button>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <div className="admin__section">
+      <div className="admin__section-header">
+        <h2>Career & Education Timeline</h2>
+        <div className="admin__item-actions">
+          <button className="admin__btn admin__btn--save" onClick={saveAll}>Save All</button>
+        </div>
+      </div>
+      {renderSection('career', 'Career Experience')}
+      {renderSection('education', 'Education')}
+    </div>
+  );
+}
+
 /* ========== ACCOUNT SETTINGS ========== */
 function AccountSettings({ user, toast }) {
   const [newPassword, setNewPassword] = useState('');
@@ -711,6 +799,7 @@ export default function AdminPage() {
   const [contacts, setContacts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [catalogs, setCatalogs] = useState([]);
+  const [timeline, setTimeline] = useState([]);
 
   const toast = (msg) => {
     setToastMsg(msg);
@@ -733,7 +822,7 @@ export default function AdminPage() {
   useEffect(() => {
     if (!user) return;
     const fetchAll = async () => {
-      const [settingsRes, skillsRes, projRes, certRes, contactRes, ordersRes, catRes] = await Promise.all([
+      const [settingsRes, skillsRes, projRes, certRes, contactRes, ordersRes, catRes, timelineRes] = await Promise.all([
         supabase.from('site_settings').select('*'),
         supabase.from('skills').select('*').order('sort_order'),
         supabase.from('projects').select('*').order('sort_order'),
@@ -741,6 +830,7 @@ export default function AdminPage() {
         supabase.from('contact_options').select('*').order('sort_order'),
         supabase.from('web_orders').select('*').order('created_at', { ascending: false }),
         supabase.from('web_catalogs').select('*').order('sort_order'),
+        supabase.from('timeline').select('*').order('sort_order'),
       ]);
 
       const s = {};
@@ -752,6 +842,7 @@ export default function AdminPage() {
       setContacts(contactRes.data || []);
       setOrders(ordersRes.data || []);
       setCatalogs(catRes.data || []);
+      setTimeline(timelineRes.data || []);
     };
     fetchAll();
   }, [user]);
@@ -781,6 +872,7 @@ export default function AdminPage() {
     { key: 'header', label: '🏠 Header' },
     { key: 'about', label: '👤 About' },
     { key: 'skills', label: '⚡ Skills' },
+    { key: 'timeline', label: '⏳ Timeline' },
     { key: 'projects', label: '📁 Projects' },
     { key: 'certificates', label: '🏆 Certificates' },
     { key: 'contacts', label: '📬 Contact' },
@@ -820,6 +912,7 @@ export default function AdminPage() {
           {activeTab === 'header' && <HeaderSettings settings={settings.header} onChange={updateSetting} onSave={saveSetting} />}
           {activeTab === 'about' && <AboutSettings settings={settings.about} onChange={updateSetting} onSave={saveSetting} />}
           {activeTab === 'skills' && <SkillsManager skills={skills} setSkills={setSkills} toast={toast} />}
+          {activeTab === 'timeline' && <TimelineManager timeline={timeline} setTimeline={setTimeline} toast={toast} />}
           { activeTab === 'projects' && <ProjectsManager projects={projects} setProjects={setProjects} toast={toast} /> }
           { activeTab === 'certificates' && <CertificatesManager certificates={certificates} setCertificates={setCertificates} toast={toast} /> }
           { activeTab === 'contacts' && <ContactManager contacts={contacts} setContacts={setContacts} toast={toast} /> }

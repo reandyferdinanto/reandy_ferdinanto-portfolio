@@ -8,18 +8,20 @@ export function usePortfolioData() {
     projects: [],
     certificates: [],
     contacts: [],
+    timeline: [],
     loaded: false,
   });
 
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const [settingsRes, skillsRes, projRes, certRes, contactRes] = await Promise.all([
+        const [settingsRes, skillsRes, projRes, certRes, contactRes, timelineRes] = await Promise.all([
           supabase.from('site_settings').select('*'),
           supabase.from('skills').select('*').order('sort_order'),
           supabase.from('projects').select('*').order('sort_order'),
           supabase.from('certificates').select('*').order('sort_order'),
           supabase.from('contact_options').select('*').order('sort_order'),
+          supabase.from('timeline').select('*').order('sort_order'),
         ]);
 
         const settings = {};
@@ -31,6 +33,7 @@ export function usePortfolioData() {
           projects: projRes.data || [],
           certificates: certRes.data || [],
           contacts: contactRes.data || [],
+          timeline: timelineRes.data || [],
           loaded: true,
         });
       } catch (err) {

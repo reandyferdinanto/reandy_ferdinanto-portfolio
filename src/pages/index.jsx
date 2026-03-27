@@ -12,7 +12,7 @@ import Footer from "../assets/components/footer/Footer";
 import { usePortfolioData } from "../lib/usePortfolioData";
 
 const Home = () => {
-  const { settings, skills, projects, certificates, contacts, loaded } = usePortfolioData();
+  const { settings, skills, projects, certificates, contacts, timeline, loaded } = usePortfolioData();
 
   const header = settings.header || {};
   const about = settings.about || {};
@@ -28,7 +28,7 @@ const Home = () => {
       <Nav />
       <About data={about} />
       <Experience skills={skills} />
-      <Services />
+      <Services timeline={timeline} />
       <Portofolio projects={projects} />
       <Testimonials certificates={certificates} />
       <Contact contacts={contacts} />
