@@ -1,0 +1,220 @@
+/* ========== ORDER PAGE CSS ========== */
+.order__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  padding: 4rem 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.order__header {
+  text-align: center;
+}
+
+.order__header h2 {
+  font-size: 2.5rem;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.order__header p {
+  color: var(--color-light);
+  font-size: 1.1rem;
+}
+
+/* Catalog Grid */
+.catalog__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+.catalog__item {
+  background: var(--color-bg);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.catalog__image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 1rem;
+  box-shadow: var(--shadow-inset);
+  overflow: hidden;
+}
+
+.catalog__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.catalog__item:hover .catalog__image img {
+  transform: scale(1.05);
+}
+
+.catalog__details h4 {
+  color: var(--color-primary);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.catalog__details p {
+  color: var(--color-light);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.catalog__btn {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  border-radius: 2rem;
+  background: var(--color-bg);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: var(--color-accent);
+  font-weight: 600;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.catalog__btn:hover {
+  box-shadow: var(--shadow-inset);
+  transform: translateY(-2px);
+}
+
+/* Order Form */
+.order__form-container {
+  background: var(--color-bg);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 2rem;
+  padding: 3rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+.order__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form__group label {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding-left: 0.5rem;
+}
+
+.form__group input,
+.form__group textarea {
+  width: 100%;
+  padding: 1.2rem;
+  border-radius: 1rem;
+  background: var(--color-bg);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: var(--shadow-inset);
+  color: var(--color-light);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.form__group input:focus,
+.form__group textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.order__submit {
+  margin-top: 1rem;
+  padding: 1.2rem;
+  border-radius: 1rem;
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.order__submit:hover:not(:disabled) {
+  background: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.order__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.back__btn {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  background: var(--color-bg);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 0.8rem 1.5rem;
+  border-radius: 2rem;
+  transition: var(--transition);
+}
+
+.back__btn:hover {
+  box-shadow: var(--shadow-inset);
+  color: var(--color-accent);
+}
+
+/* Toast */
+.order__toast {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  background: var(--color-accent);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  z-index: 1000;
+  animation: slideIn 0.3s forwards;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@media screen and (max-width: 600px) {
+  .order__form-container {
+    padding: 2rem 1.5rem;
+  }
+  .back__btn {
+    position: static;
+    display: inline-flex;
+    margin-bottom: 2rem;
+  }
+}

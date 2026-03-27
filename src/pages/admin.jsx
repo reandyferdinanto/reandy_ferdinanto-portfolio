@@ -506,6 +506,111 @@ function ContactManager({ contacts, setContacts, toast }) {
   );
 }
 
+/* ========== WEB ORDERS ========== */
+function OrdersManager({ orders, setOrders, toast }) {
+  const updateStatus = async (id, status) => {
+    await supabase.from('web_orders').update({ status }).eq('id', id);
+    setOrders(orders.map(o => o.id === id ? { ...o, status } : o));
+    toast('Order status updated!');
+  };
+
+  return (
+    <div className="admin__section">
+      <div className="admin__section-header">
+        <h2>Web Orders</h2>
+      </div>
+      {orders.map(o => (
+        <div key={o.id} className="admin__item" style={{ borderLeft: o.status === 'pending' ? '4px solid var(--color-accent)' : '4px solid #4CAF50' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <h3 style={{ margin: 0 }}>{o.name} <span style={{ fontSize: '0.8rem', color: 'var(--color-light)', fontWeight: 'normal' }}>({new Date(o.created_at).toLocaleDateString()})</span></h3>
+            <select value={o.status} onChange={e => updateStatus(o.id, e.target.value)} style={{ padding: '0.3rem', borderRadius: '0.5rem', background: 'var(--color-bg)', color: 'var(--color-primary)' }}>
+              <option value="pending">Pending</option>
+              <option value="contacted">Contacted</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+          <p><strong>Email:</strong> <a href={`mailto:${o.email}`} style={{color: 'var(--color-accent)'}}>{o.email}</a></p>
+          <p><strong>WhatsApp:</strong> <a href={`https://wa.me/${o.whatsapp?.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer" style={{color: 'var(--color-accent)'}}>{o.whatsapp || 'N/A'}</a></p>
+          {o.reference_url && <p><strong>Reference:</strong> <a href={o.reference_url} target="_blank" rel="noreferrer" style={{color: 'var(--color-accent)'}}>{o.reference_url}</a></p>}
+          <div style={{ marginTop: '1rem', padding: '1rem', background: 'rgba(0,0,0,0.1)', borderRadius: '0.5rem' }}>
+            <strong>Requirements:</strong>
+            <p style={{ marginTop: '0.5rem', whiteSpace: 'pre-wrap' }}>{o.requirements}</p>
+          </div>
+        </div>
+      ))}
+      {orders.length === 0 && <p>No orders yet.</p>}
+    </div>
+  );
+}
+
+/* ========== WEB CATALOGS ========== */
+function CatalogsManager({ catalogs, setCatalogs, toast }) {
+  const addCatalog = () => {
+    setCatalogs([...catalogs, { id: 'new-' + Date.now(), title: '', description: '', image_url: '', demo_url: '', sort_order: catalogs.length, _new: true }]);
+  };
+
+  const updateCat = (id, field, val) => {
+    setCatalogs(catalogs.map(c => c.id === id ? { ...c, [field]: val, _dirty: true } : c));
+  };
+
+  const deleteCat = async (id) => {
+    if (id.toString().startsWith('new-')) return setCatalogs(catalogs.filter(c => c.id !== id));
+    await supabase.from('web_catalogs').delete().eq('id', id);
+    setCatalogs(catalogs.filter(c => c.id !== id));
+    toast('Catalog deleted');
+  };
+
+  const saveAll = async () => {
+    for (const c of catalogs) {
+      const data = { title: c.title, description: c.description, image_url: c.image_url, demo_url: c.demo_url, sort_order: c.sort_order };
+      if (c._new) {
+        const { data: inserted } = await supabase.from('web_catalogs').insert(data).select().single();
+        if (inserted) c.id = inserted.id;
+        c._new = false;
+      } else if (c._dirty) {
+        await supabase.from('web_catalogs').update(data).eq('id', c.id);
+      }
+      c._dirty = false;
+    }
+    toast('Catalogs saved!');
+  };
+
+  return (
+    <div className="admin__section">
+      <div className="admin__section-header">
+        <h2>Web Catalogs</h2>
+        <div className="admin__item-actions">
+          <button className="admin__btn admin__btn--add" onClick={addCatalog}>+ Add Template</button>
+          <button className="admin__btn admin__btn--save" onClick={saveAll}>Save All</button>
+        </div>
+      </div>
+      {catalogs.sort((a, b) => a.sort_order - b.sort_order).map(c => (
+        <div key={c.id} className="admin__item">
+          <div className="admin__input-row">
+            <div className="admin__input-group" style={{flex: 2}}>
+              <label>Template Name</label>
+              <input value={c.title || ''} onChange={e => updateCat(c.id, 'title', e.target.value)} />
+            </div>
+            <div className="admin__input-group" style={{flex: 2}}>
+              <label>Demo URL</label>
+              <input value={c.demo_url || ''} onChange={e => updateCat(c.id, 'demo_url', e.target.value)} />
+            </div>
+          </div>
+          <div className="admin__input-group">
+            <label>Template Screenshot / Image</label>
+            <ImageUpload url={c.image_url} onUpload={(url) => updateCat(c.id, 'image_url', url)} toast={toast} />
+          </div>
+          <div className="admin__input-group">
+            <label>Description</label>
+            <textarea rows="3" value={c.description || ''} onChange={e => updateCat(c.id, 'description', e.target.value)} />
+          </div>
+          <button className="admin__btn admin__btn--delete" onClick={() => deleteCat(c.id)}>Delete</button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /* ========== ACCOUNT SETTINGS ========== */
 function AccountSettings({ user, toast }) {
   const [newPassword, setNewPassword] = useState('');
@@ -604,6 +709,8 @@ export default function AdminPage() {
   const [projects, setProjects] = useState([]);
   const [certificates, setCertificates] = useState([]);
   const [contacts, setContacts] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [catalogs, setCatalogs] = useState([]);
 
   const toast = (msg) => {
     setToastMsg(msg);
@@ -626,12 +733,14 @@ export default function AdminPage() {
   useEffect(() => {
     if (!user) return;
     const fetchAll = async () => {
-      const [settingsRes, skillsRes, projRes, certRes, contactRes] = await Promise.all([
+      const [settingsRes, skillsRes, projRes, certRes, contactRes, ordersRes, catRes] = await Promise.all([
         supabase.from('site_settings').select('*'),
         supabase.from('skills').select('*').order('sort_order'),
         supabase.from('projects').select('*').order('sort_order'),
         supabase.from('certificates').select('*').order('sort_order'),
         supabase.from('contact_options').select('*').order('sort_order'),
+        supabase.from('web_orders').select('*').order('created_at', { ascending: false }),
+        supabase.from('web_catalogs').select('*').order('sort_order'),
       ]);
 
       const s = {};
@@ -641,6 +750,8 @@ export default function AdminPage() {
       setProjects(projRes.data || []);
       setCertificates(certRes.data || []);
       setContacts(contactRes.data || []);
+      setOrders(ordersRes.data || []);
+      setCatalogs(catRes.data || []);
     };
     fetchAll();
   }, [user]);
@@ -673,6 +784,8 @@ export default function AdminPage() {
     { key: 'projects', label: '📁 Projects' },
     { key: 'certificates', label: '🏆 Certificates' },
     { key: 'contacts', label: '📬 Contact' },
+    { key: 'orders', label: '🛒 Orders' },
+    { key: 'catalogs', label: '🎨 Catalogs' },
     { key: 'account', label: '🔒 Account' },
   ];
 
@@ -707,10 +820,12 @@ export default function AdminPage() {
           {activeTab === 'header' && <HeaderSettings settings={settings.header} onChange={updateSetting} onSave={saveSetting} />}
           {activeTab === 'about' && <AboutSettings settings={settings.about} onChange={updateSetting} onSave={saveSetting} />}
           {activeTab === 'skills' && <SkillsManager skills={skills} setSkills={setSkills} toast={toast} />}
-          {activeTab === 'projects' && <ProjectsManager projects={projects} setProjects={setProjects} toast={toast} />}
-          {activeTab === 'certificates' && <CertificatesManager certificates={certificates} setCertificates={setCertificates} toast={toast} />}
-          {activeTab === 'contacts' && <ContactManager contacts={contacts} setContacts={setContacts} toast={toast} />}
-          {activeTab === 'account' && <AccountSettings user={user} toast={toast} />}
+          { activeTab === 'projects' && <ProjectsManager projects={projects} setProjects={setProjects} toast={toast} /> }
+          { activeTab === 'certificates' && <CertificatesManager certificates={certificates} setCertificates={setCertificates} toast={toast} /> }
+          { activeTab === 'contacts' && <ContactManager contacts={contacts} setContacts={setContacts} toast={toast} /> }
+          { activeTab === 'orders' && <OrdersManager orders={orders} setOrders={setOrders} toast={toast} /> }
+          { activeTab === 'catalogs' && <CatalogsManager catalogs={catalogs} setCatalogs={setCatalogs} toast={toast} /> }
+          { activeTab === 'account' && <AccountSettings user={user} toast={toast} /> }
         </div>
       </div>
       <Toast message={toastMsg} />

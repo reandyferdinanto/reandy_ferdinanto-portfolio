@@ -1,5 +1,6 @@
 import '../index.css';
 import '../styles/admin.css';
+import '../styles/order.css';
 import '../assets/components/header/header.css';
 import '../assets/components/nav/nav.css';
 import '../assets/components/about/about.css';
