@@ -271,6 +271,10 @@ function ProjectsManager({ projects, setProjects, toast }) {
             <label>Project Title</label>
             <input value={p.title || ''} onChange={e => updateProject(p.id, 'title', e.target.value)} />
           </div>
+          <div className="admin__input-group">
+            <label>Image URL</label>
+            <input value={p.image_url || ''} onChange={e => updateProject(p.id, 'image_url', e.target.value)} placeholder="https://drive.google.com/uc?export=view&id=..." />
+          </div>
           <div className="admin__input-row">
             <div className="admin__input-group">
               <label>GitHub URL</label>
