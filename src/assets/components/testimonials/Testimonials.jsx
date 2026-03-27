@@ -3,7 +3,8 @@ import AVTR1 from "../../../assets/cert1schoters.jpg";
 import AVTR2 from "../../../assets/cert2dibimbing.jpg";
 import AVTR3 from "../../../assets/cert3evermos.jpg";
 
-import { Pagination } from "swiper";
+import { Pagination, Autoplay } from "swiper";
+import { FiAward } from "react-icons/fi";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const defaultData = [
@@ -36,10 +37,11 @@ const Testimonials = ({ certificates = [] }) => {
 
       <Swiper
         className="container testimonials__container"
-        modules={[Pagination]}
+        modules={[Pagination, Autoplay]}
         spaceBetween={40}
         slidesPerView={1}
         pagination={{ clickable: true }}
+        autoplay={{ delay: 3500, disableOnInteraction: false }}
       >
         {items.map((item, index) => {
           const avatar = item.avatar || item.avatar_url || localAvatars[index] || localAvatars[0];
@@ -48,11 +50,21 @@ const Testimonials = ({ certificates = [] }) => {
 
           return (
             <SwiperSlide key={item.id || index} className="testimonial">
-              <div className="client__avatar">
-                <img src={avatar} alt={name} />
+              <div className="certificate__image-container">
+                <div className="certificate__image-flipper">
+                  <div className="certificate__image-front">
+                    <FiAward className="certificate__front-icon" />
+                    <h4>{name}</h4>
+                  </div>
+                  <div className="certificate__image-back">
+                    <img src={avatar} alt={name} />
+                  </div>
+                </div>
               </div>
-              <h5 className="client__name">{name}</h5>
-              <small className="client__review">{review}</small>
+              <div className="certificate__content">
+                <h5 className="client__name">{name}</h5>
+                <small className="client__review">{review}</small>
+              </div>
             </SwiperSlide>
           );
         })}
