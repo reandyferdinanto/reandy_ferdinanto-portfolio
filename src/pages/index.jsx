@@ -20,7 +20,7 @@ const Home = () => {
   return (
     <>
       <Head>
-        <title>{header.name || 'Reandy Ferdinanto'} | {header.role || 'BackEnd Developer'} Portfolio</title>
+        <title>{`${header.name || 'Reandy Ferdinanto'} | ${header.role || 'BackEnd Developer'} Portfolio`}</title>
         <meta name="description" content={`Portfolio of ${header.name || 'Reandy Ferdinanto'} - ${header.role || 'BackEnd Developer'}`} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>

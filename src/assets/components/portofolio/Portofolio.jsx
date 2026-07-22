@@ -1,37 +1,31 @@
 import React from "react";
 import { FiExternalLink, FiMonitor, FiCloud, FiCode, FiSmartphone } from "react-icons/fi";
-import IMG1 from "../../../assets/portfolio1_r.jpg";
-import IMG2 from "../../../assets/portfolio2_r.jpg";
-import IMG3 from "../../../assets/portfolio3_r.jpg";
+import IMG4 from "../../../assets/dental-app.png";
+import IMG5 from "../../../assets/harold-porto.png";
+import IMG6 from "../../../assets/anomali-saham.png";
 
 const defaultData = [
   {
-    id: 1,
-    image: IMG1.src,
-    title: "Virtual ATM transaction with CLI (NodeJS)",
-    technologies: "NodeJS, JavaScript, CLI",
-    demo_url: "#contact",
-    image_credit: "starline on Freepik",
-    image_credit_url: "https://www.freepik.com/free-vector/credit-card-going-inside-mobile-digital-transaction-concept_22535508.htm",
+    id: 4,
+    image: IMG4.src || IMG4,
+    title: "Dental Appointment System",
+    technologies: "React, Web App",
+    demo_url: "https://drg-bunga-appointment.vercel.app/",
   },
   {
-    id: 2,
-    image: IMG2.src,
-    title: "Recipe Sharing API (BackEnd - ExpressJS MySQL)",
-    technologies: "ExpressJS, MySQL, Postman",
-    demo_url: "https://documenter.getpostman.com/view/23401470/2s8Z6yXCpr",
-    image_credit: "Freepik",
-    image_credit_url: "https://www.freepik.com/free-psd/brunch-restaurant-design-landing-page_7247926.htm",
+    id: 5,
+    image: IMG5.src || IMG5,
+    title: "Harold Portfolio",
+    technologies: "React, Web App",
+    demo_url: "https://harold-porto-2026.vercel.app/",
   },
   {
-    id: 3,
-    image: IMG3.src,
-    title: "Suggestion for Users to Get Nearest Restaurant",
-    technologies: "Dijkstra Algorithm, Maps API",
-    demo_url: "https://documenter.getpostman.com/view/23401470/2s93JtPiMd",
-    image_credit: "WangXiNa on Freepik",
-    image_credit_url: "https://www.freepik.com/free-vector/map-point-abstract-3d-polygonal-wireframe-airplane-blue-night-sky-with-dots-stars-illustration-background_24126470.htm",
-  },
+    id: 6,
+    image: IMG6.src || IMG6,
+    title: "Cerita Saham Dashboard",
+    technologies: "React, Web App",
+    demo_url: "https://ceritasaham-dashboard.my.id/",
+  }
 ];
 
 const CategoryPlaceholder = ({ category }) => {
@@ -57,7 +51,7 @@ const CategoryPlaceholder = ({ category }) => {
   );
 };
 
-const localImages = [IMG1.src, IMG2.src, IMG3.src];
+const localImages = [IMG4.src || IMG4, IMG5.src || IMG5, IMG6.src || IMG6];
 
 const Portofolio = ({ projects = [] }) => {
   const items = projects.length > 0 ? projects : defaultData;
